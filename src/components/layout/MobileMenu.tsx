@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 interface MobileMenuProps {
@@ -7,54 +7,44 @@ interface MobileMenuProps {
 
 const MobileMenu = ({ isPortfolioOrBlog }: MobileMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Wait for scripts to load
-    const initMenu = () => {
-      const $ = window.$;
-      if (!$) return;
-
-      const hamburger = $(".trigger .hamburger");
-      const mobileMenu = $(".dizme_tm_mobile_menu .dropdown");
-
-      if (!hamburger.length || !mobileMenu.length) return;
-
-      // Toggle mobile menu
-      const handleToggle = () => {
-        if (hamburger.hasClass("is-active")) {
-          hamburger.removeClass("is-active");
-          mobileMenu.slideUp();
-          setIsOpen(false);
-        } else {
-          hamburger.addClass("is-active");
-          mobileMenu.slideDown();
-          setIsOpen(true);
-        }
-        return false;
-      };
-
-      hamburger.on("click", handleToggle);
-
-      // Close on menu link click
-      const handleLinkClick = () => {
-        hamburger.removeClass("is-active");
-        mobileMenu.slideUp();
+    // Close menu when clicking outside
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsOpen(false);
-        return false;
-      };
-
-      mobileMenu.find("ul li a").on("click", handleLinkClick);
-
-      return () => {
-        hamburger.off("click", handleToggle);
-        mobileMenu.find("ul li a").off("click", handleLinkClick);
-      };
+      }
     };
 
-    // Give time for scripts to load
-    const timer = setTimeout(initMenu, 500);
-    return () => clearTimeout(timer);
-  }, []);
+    // Close menu on escape key
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleEscape);
+      // Prevent body scroll when menu is open
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
 
   const navItems = [
     { label: "Home", href: "/" },
@@ -64,12 +54,12 @@ const MobileMenu = ({ isPortfolioOrBlog }: MobileMenuProps) => {
       href: isPortfolioOrBlog ? "/portfolio" : "#portfolio",
     },
     { label: "Service", href: isPortfolioOrBlog ? "/#service" : "#service" },
-    { label: "Blog", href: isPortfolioOrBlog ? "/blog" : "#blog" },
+    // { label: "Blog", href: isPortfolioOrBlog ? "/blog" : "#blog" },
     { label: "Contact", href: isPortfolioOrBlog ? "/#contact" : "#contact" },
   ];
 
   return (
-    <div className="dizme_tm_mobile_menu">
+    <div className="dizme_tm_mobile_menu" ref={menuRef}>
       <div className="mobile_menu_inner">
         <div className="mobile_in">
           <div className="logo">
@@ -78,26 +68,37 @@ const MobileMenu = ({ isPortfolioOrBlog }: MobileMenuProps) => {
             </Link>
           </div>
           <div className="trigger">
-            <div
+            <button
               className={`hamburger hamburger--slider ${isOpen ? "is-active" : ""}`}
+              onClick={toggleMenu}
+              aria-label="Toggle menu"
+              aria-expanded={isOpen}
             >
-              <div className="hamburger-box">
-                <div className="hamburger-inner"></div>
-              </div>
-            </div>
+              <span className="hamburger-box">
+                <span className="hamburger-inner"></span>
+              </span>
+            </button>
           </div>
         </div>
       </div>
-      <div className="dropdown" style={{ display: isOpen ? "block" : "none" }}>
+      <div
+        className="dropdown"
+        style={{
+          display: isOpen ? "block" : "none",
+          maxHeight: isOpen ? "80vh" : "0",
+          overflow: "hidden",
+          transition: "max-height 0.3s ease-in-out"
+        }}
+      >
         <div className="dropdown_inner">
           <ul className="anchor_nav">
             {navItems.map((item, index) => (
               <li key={item.href} className={index === 0 ? "current" : ""}>
-                <Link to={item.href}>{item.label}</Link>
+                <Link to={item.href} onClick={closeMenu}>{item.label}</Link>
               </li>
             ))}
             <li className="download_cv">
-              <a href="/cv/Muhammad_Izza_Lutfi.pdf" download>
+              <a href="/cv/Muhammad_Izza_Lutfi.pdf" download onClick={closeMenu}>
                 <span>Download CV</span>
               </a>
             </li>

@@ -49,27 +49,8 @@ function dizme_tm_nav_bg() {
 }
 function dizme_tm_trigger_menu() {
   "use strict";
-  var hamburger = jQuery(".trigger .hamburger");
-  var mobileMenu = jQuery(".dizme_tm_mobile_menu .dropdown");
-  var mobileMenuList = jQuery(
-    ".dizme_tm_mobile_menu .dropdown .dropdown_inner ul li a",
-  );
-  hamburger.on("click", function () {
-    var element = jQuery(this);
-    if (element.hasClass("is-active")) {
-      element.removeClass("is-active");
-      mobileMenu.slideUp();
-    } else {
-      element.addClass("is-active");
-      mobileMenu.slideDown();
-    }
-    return false;
-  });
-  mobileMenuList.on("click", function () {
-    jQuery(".trigger .hamburger").removeClass("is-active");
-    mobileMenu.slideUp();
-    return false;
-  });
+  // Mobile menu is now handled by React (MobileMenu.tsx)
+  // This function only handles desktop menu behavior if needed
 }
 function dizme_tm_service_popup() {
   "use strict";
