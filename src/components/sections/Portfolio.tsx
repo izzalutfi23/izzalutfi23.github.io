@@ -23,16 +23,16 @@ const Portfolio = () => {
   useEffect(() => {
     // Process images - call the same function as init.js
     const $ = window.$;
-    if ($ && typeof window.dizme_tm_data_images === 'function') {
+    if ($ && typeof (window as unknown as { dizme_tm_data_images?: () => void }).dizme_tm_data_images === 'function') {
       // Call the global function from init.js
-      (window as any).dizme_tm_data_images();
+      (window as unknown as { dizme_tm_data_images: () => void }).dizme_tm_data_images();
     } else if ($) {
       // Fallback: manually process images like dizme_tm_data_images does
       $(".dizme_tm_news .main").each(function(this: HTMLElement) {
         const $el = $(this);
         const url = $el.data("img-url");
         if (url) {
-          $el.css({ backgroundImage: "url(" + url + ")" });
+          $el.css("backgroundImage", "url(" + url + ")");
         }
       });
     }

@@ -28,12 +28,6 @@ const Footer = () => {
   );
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
-  // Current time in Indonesia (WIB = UTC+7)
-  const now = new Date();
-  const wibTime = new Date(now.getTime() + 7 * 60 * 60 * 1000);
-  const currentHour = wibTime.getUTCHours();
-  const isOnline = currentHour >= 8 && currentHour < 22;
-
   return (
     <>
       <div className="dizme_tm_section" id="contact">

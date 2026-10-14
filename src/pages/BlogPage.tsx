@@ -23,14 +23,14 @@ const BlogPage = () => {
 
     // Process images - call the same function as init.js
     const $ = window.$;
-    if ($ && typeof window.dizme_tm_data_images === 'function') {
-      (window as any).dizme_tm_data_images();
+    if ($ && typeof (window as unknown as { dizme_tm_data_images?: () => void }).dizme_tm_data_images === 'function') {
+      (window as unknown as { dizme_tm_data_images: () => void }).dizme_tm_data_images();
     } else if ($) {
       $("*[data-img-url]").each(function(this: HTMLElement) {
         const $el = $(this);
         const url = $el.data("img-url");
         if (url) {
-          $el.css({ backgroundImage: "url(" + url + ")" });
+          $el.css("backgroundImage", "url(" + url + ")");
         }
       });
     }

@@ -1,7 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 const About = () => {
-  const countersRef = useRef<NodeListOf<HTMLSpanElement> | null>(null);
 
   useEffect(() => {
     // Simple counter animation
