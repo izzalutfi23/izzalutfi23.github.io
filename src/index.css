@@ -1,0 +1,4 @@
+/* Import CSS from frontend folder */
+@import '../public/frontend/css/plugins.css';
+@import '../public/frontend/css/dark.css';
+@import '../public/frontend/css/style.css';
