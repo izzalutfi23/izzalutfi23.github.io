@@ -98,7 +98,7 @@ const MobileMenu = ({ isPortfolioOrBlog }: MobileMenuProps) => {
               </li>
             ))}
             <li className="download_cv">
-              <a href="/cv/Muhammad_Izza_Lutfi.pdf" download onClick={closeMenu}>
+              <a href="/cv/Muhammad_Izza_Lutfi.pdf" target="_blank" rel="noopener noreferrer">
                 <span>Download CV</span>
               </a>
             </li>

@@ -40,7 +40,7 @@ const Header = ({ isPortfolioOrBlog }: HeaderProps) => {
                 </li>
               ))}
               <li className="download_cv">
-                <a href="/cv/Muhammad_Izza_Lutfi.pdf" download>
+                <a href="/cv/Muhammad_Izza_Lutfi.pdf" target="_blank" rel="noopener noreferrer">
                   <span>Download CV</span>
                 </a>
               </li>
