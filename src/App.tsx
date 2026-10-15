@@ -6,14 +6,12 @@ import BlogPage from './pages/BlogPage';
 
 function App() {
   return (
-    <MainLayout>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/portfolio" element={<PortfolioPage />} />
-        <Route path="/blog" element={<BlogPage />} />
-        {/* Add more routes as needed */}
-      </Routes>
-    </MainLayout>
+    <Routes>
+      <Route path="/" element={<MainLayout><HomePage /></MainLayout>} />
+      <Route path="/portfolio" element={<MainLayout><PortfolioPage /></MainLayout>} />
+      <Route path="/blog" element={<MainLayout><BlogPage /></MainLayout>} />
+      {/* Add more routes as needed */}
+    </Routes>
   );
 }
 

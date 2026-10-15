@@ -98,7 +98,13 @@ const MobileMenu = ({ isPortfolioOrBlog }: MobileMenuProps) => {
               </li>
             ))}
             <li className="download_cv">
-              <a href="/cv/Muhammad_Izza_Lutfi.pdf" target="_blank" rel="noopener noreferrer">
+              <a
+                href="/cv/Muhammad_Izza_Lutfi.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => window.open('/cv/Muhammad_Izza_Lutfi.pdf', '_blank')}
+                style={{ pointerEvents: 'auto', cursor: 'pointer' }}
+              >
                 <span>Download CV</span>
               </a>
             </li>
